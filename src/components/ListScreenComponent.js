@@ -43,6 +43,7 @@ export default class ListScreenComponent extends Component {
           ItemSeparatorComponent={this.renderItemSeparator}
           onEndReached={() => this.props.loadMore()}  
           onEndReachedThreshold={0.01}
+          style={AppStyles.list}
         />
       </View>
     );

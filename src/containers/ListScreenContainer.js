@@ -4,6 +4,7 @@ import List from "../components/ListScreenComponent";
 import Header from "../components/HeaderComponent";
 import {Api} from '../api/client/ApiClient';
 import AppStyles from '../utils/AppStyles';
+import { LocationContext} from '../../App';
 
 export default class ListScreenContainer extends Component {
 
@@ -64,10 +65,18 @@ export default class ListScreenContainer extends Component {
   render() {
       const { ...rest } = this.state;
     return (
-      <View style={AppStyles.container}>
+      // 
+      <View style={AppStyles.container}>  
         <Header searchFilter={this.filterList}/>
+        <LocationContext.Consumer> 
+        { (data) => (
+          <Text>Current Location {data.lat} , {data.lon}</Text>
+        )}
+        </LocationContext.Consumer>
         <List  {...rest} loadMore={this.getBreweries} itemClicked={this.showDetailScreen}/>
+       
       </View>
+      // 
     );
   }
 }

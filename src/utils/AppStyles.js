@@ -21,6 +21,7 @@ export default (AppStyles = StyleSheet.create({
     marginVertical: 5,
     color: Colors.orange
   },
+  
   normalHeader: {
     justifyContent: "center",
     alignItems: "center",
@@ -40,6 +41,7 @@ export default (AppStyles = StyleSheet.create({
     color: Colors.white,
     flex: 1
   },
+  list:{marginTop:10},
   viewSeparator: {
     backgroundColor: "#FFF",
     marginVertical: 5
