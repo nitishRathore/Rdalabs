@@ -1,27 +1,51 @@
-import React, { PureComponent } from 'react'
-import { Text, View , Dimensions,TextInput} from 'react-native'
-import Colors from '../utils/Colors'
-const APPBAR_HEIGHT = 60;
+import React, { Component } from "react";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import Colors from "../utils/Colors";
+import { NavigationActions } from "react-navigation";
+import Icon from "react-native-vector-icons/Ionicons";
+import AppStyles from "../utils/AppStyles";
 
+export default class HeaderComponent extends Component {
+    
+  searchFilterFunction = text => {
+    const { searchFilter } = this.props;
+    searchFilter(text);
+  };
 
-export default class HeaderComponent extends PureComponent {
+  navigateBack = () => {
+    console.log("====================================");
+    console.log("navigateBack");
+    console.log("====================================");
+    this.props.navigation.dispatch(NavigationActions.back());
+  };
 
-    searchFilterFunction =(text) => {
-        const {searchFilter} = this.props;
-        searchFilter(text);
-    }
-    render() {
-        return (
-            <View style={{backgroundColor:Colors.white,height:APPBAR_HEIGHT,justifyContent:"center",alignContent:"center"}}> 
-                {/* <TextInput
-                    autoFocus={false} 
-                    selectionColor={Colors.orange}
-                    style={{ marginHorizontal: "5%", backgroundColor: Colors.white, padding: 10, marginVertical: 10, borderWidth: 0.2, borderColor: Colors.light_gray, color: Colors.orange }}
-                    onChangeText={text => this.searchFilterFunction(text)}
-                /> */}
-                <Text style={{color:Colors.orange,fontSize:18,fontWeight:"bold", textAlign:"center"}}>DummyList</Text>
+  render() {
+    const { title } = this.props;
+    return (
+      <View style={AppStyles.headerBackground}>
+        {title == null ? (
+          <TextInput
+            autoFocus={false}
+            selectionColor={Colors.orange}
+            placeholder={"Search"}
+            style={AppStyles.searchBar}
+            onChangeText={text => this.searchFilterFunction(text)}
+          />
+        ) : (
+          <View style={AppStyles.normalHeader}>
+            <TouchableOpacity onPress={() => this.navigateBack()}>
+              <Icon
+                name="ios-arrow-back"
+                size={32}
+                color={Colors.white}
+                style={AppStyles.backIcon}
+              />
+            </TouchableOpacity>
 
-            </View>   
-        )
-    }
+            <Text style={AppStyles.headerTitleText}>{title}</Text>
+          </View>
+        )}
+      </View>
+    );
+  }
 }

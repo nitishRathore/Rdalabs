@@ -11,10 +11,11 @@ const mainNavigation = createStackNavigator(
     Detail: {
       screen: DetailsScreen
     }
-  },
+  },    
   {
+
+    initialRouteName: "List",
     headerMode: "none",
-    initialRouteName: "List"
   }
 );
 

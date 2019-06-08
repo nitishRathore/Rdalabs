@@ -1,69 +1,48 @@
 import React, { Component } from "react";
-import { Text, View, FlatList, TextInput } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+} from "react-native";
 import ListItem from "./ListItemComponent";
+import AppStyles from '../utils/AppStyles';
 import Colors from "../utils/Colors";
 
 export default class ListScreenComponent extends Component {
-
-    constructor() {
-        super();
-        this.state = {
-            data : []  
-        }
-    }
-
-  componentDidMount = () => {
-    this.setState({
-      data: this.props.listData
-    });
-  };
-
-  searchFilterFunction = text => {
-    this.arrayholder = this.props.listData;
-
-    const newData = this.arrayholder.filter(item => {
-      const itemData = `${item.toLowerCase()}`;
-
-      const textData = text.toLowerCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-
-    this.setState({ data: newData });
-  };
-
-  _keyExtractor = (item, index) => index;
+  _keyExtractor = (item, index) => item.id.toString();
   
+  onItemClick = (item) =>{  
+      this.props.itemClicked(item);
+  }
+
   renderListItem = ({ item }) => {
-    return <ListItem item={item} />;
+    return <ListItem item={item} onClick={this.onItemClick} />;
   };
   renderItemSeparator = () => {
-    return <View style={{ backgroundColor: "#FFF", marginVertical: 5 }} />;
+    return <View style={AppStyles.viewSeparator} />;  
   };
+
+  renderListEmptyComponent = () => {  
+    return (
+      <View style ={AppStyles.emptyView}>  
+        <Text style={AppStyles.emptyText}>Sorry no data available right now</Text>
+      </View>
+    )
+  }
+
 
   render() {
     const { listData } = this.props;
     return (
-      <View style={{ flex: 1 }}>
-        <TextInput
-          autoFocus={false}
-          selectionColor={Colors.orange}
-          style={{
-            marginHorizontal: "5%",
-            backgroundColor: Colors.white,
-            padding: 10,
-            marginVertical: 10,
-            borderWidth: 0.2,
-            borderColor: Colors.light_gray,
-            color: Colors.orange
-          }}
-          onChangeText={text => this.searchFilterFunction(text)}
-        />
-        <FlatList  
-          data={this.state.data}
+      <View style={AppStyles.container}>
+        <FlatList
+          data={listData}  
           renderItem={this.renderListItem}
-          keyExtractor={this._keyExtractor}
+          ListEmptyComponent={this.renderListEmptyComponent}
+          keyExtractor={this._keyExtractor} 
           ItemSeparatorComponent={this.renderItemSeparator}
+          onEndReached={() => this.props.loadMore()}  
+          onEndReachedThreshold={0.01}
         />
       </View>
     );
