@@ -6,7 +6,6 @@ import {
 } from "react-native";
 import ListItem from "./ListItemComponent";
 import AppStyles from '../utils/AppStyles';
-import Colors from "../utils/Colors";
 
 export default class ListScreenComponent extends Component {
   _keyExtractor = (item, index) => item.id.toString();

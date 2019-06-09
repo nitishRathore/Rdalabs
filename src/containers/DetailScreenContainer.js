@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import {  View } from 'react-native'
 import Details from '../components/DetailScreenComponent';
 import Header from '../components/HeaderComponent';
 import AppStyles from '../utils/AppStyles';

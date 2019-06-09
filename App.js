@@ -4,8 +4,8 @@ import AppContainer from "./src/navigator/AppNavigation";
 import AppStyles from "./src/utils/AppStyles";
 import Permissions from "react-native-permissions";
 import * as GetCurrentLocation from "./src/utils/CurrentLocation";
-
-export const LocationContext = React.createContext("no location");
+import SplashScreen from "react-native-splash-screen";
+import LocationProvider from "./src/provider/LocationProvider";
 export default class App extends Component {
   constructor() {
     super();
@@ -17,18 +17,20 @@ export default class App extends Component {
 
   componentDidMount = () => {
     Permissions.request("location", { type: "always" }).then(response => {
-       if (response == "authorized") {
+      if (response == "authorized") {
         this.getCurrentLocation();
       }
     });
+
+    SplashScreen.hide();
   };
 
   getCurrentLocation = () => {
     GetCurrentLocation.CurrentLocation().then(locationData => {
       if (locationData.error == null) {
-       this.setState({
-          currentLatLng:locationData
-        })
+        this.setState({
+          currentLatLng: locationData
+        });
       }
     });
   };
@@ -36,9 +38,9 @@ export default class App extends Component {
   render() {
     return (
       <SafeAreaView style={AppStyles.container}>
-        <LocationContext.Provider value={this.state.currentLatLng}>
+        <LocationProvider.Provider value={this.state.currentLatLng}>
           <AppContainer />
-        </LocationContext.Provider>
+        </LocationProvider.Provider>
       </SafeAreaView>
     );
   }

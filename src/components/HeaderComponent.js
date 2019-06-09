@@ -13,9 +13,6 @@ export default class HeaderComponent extends Component {
   };
 
   navigateBack = () => {
-    console.log("====================================");
-    console.log("navigateBack");
-    console.log("====================================");
     this.props.navigation.dispatch(NavigationActions.back());
   };
 

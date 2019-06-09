@@ -7,6 +7,8 @@ export default (AppStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white
   },
+  locationView:{margin:10},
+  locationlabel:{color: Colors.black, fontSize: 16 },
   headerBackground: {
     height: APPBAR_HEIGHT,
     justifyContent: "center",
