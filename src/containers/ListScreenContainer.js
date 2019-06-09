@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import List from "../components/ListScreenComponent";
 import Header from "../components/HeaderComponent";
-import { Api } from "../api/client/ApiClient";
+import { Api,getBreweries } from "../api/client/ApiClient";
 import AppStyles from "../utils/AppStyles";
 import LocationProvider from "../provider/LocationProvider";
 
@@ -16,27 +16,28 @@ export default class ListScreenContainer extends Component {
     this.page = 0;
   }
 
-  getBreweries = () => {
+  fetchfromServer = () => {
     this.page = this.page + 1;
     this.setState({ isLoading: true }, () => {
-      Api.get("/breweries", { page: this.page, per_page: 50 })
-        .then(response => response.data)
-        .then(response => {
-          this.setState(
-            {
-              listData: [...this.state.listData, ...response],
-              isLoading: false
-            },
-            () => {
-              this.arrayholder = this.state.listData;
-            }
-          );
-        });
+      getBreweries(this.page).then((data) =>{
+        this.setState(
+          {
+            listData: [...this.state.listData, ...data],
+            isLoading: false
+          },
+          () => {
+            this.arrayholder = this.state.listData;
+          }
+        );
+      }) 
     });
   };
 
+
+  
+
   componentDidMount() {
-    this.getBreweries();
+    this.fetchfromServer();
   }
 
   filterList = filterText => {
@@ -76,7 +77,7 @@ export default class ListScreenContainer extends Component {
         </LocationProvider.Consumer>
         <List
           {...rest}
-          loadMore={this.getBreweries}
+          loadMore={this.fetchfromServer}
           itemClicked={this.showDetailScreen}
         />
       </View>

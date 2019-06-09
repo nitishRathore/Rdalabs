@@ -12,12 +12,13 @@ export const Api = create({
 
   
 
-// export const getBreweries = (page_number) => {
+export const getBreweries = (page_number) => {
 
-//     const result = Api.get('/breweries',{page:page_number,per_page:30}).then(response => {
-//         return response.data
-//     } );
+  
+    const result = Api.get('/breweries',{page:page_number==null?0:page_number,per_page:30}).then(response => {
+        return response.data
+    } );
 
-//   return  result;
+  return  result;
 
-// }
+}
